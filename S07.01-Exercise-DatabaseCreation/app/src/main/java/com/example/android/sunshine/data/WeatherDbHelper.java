@@ -15,19 +15,45 @@
  */
 package com.example.android.sunshine.data;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.android.sunshine.data.WeatherContract.WeatherEntry;
+
 /**
  * Manages a local database for weather data.
  */
-// TODO (11) Extend SQLiteOpenHelper from WeatherDbHelper
-public class WeatherDbHelper {
+// COMPLETED (11) Extend SQLiteOpenHelper from WeatherDbHelper
+public class WeatherDbHelper extends SQLiteOpenHelper {
 
-//  TODO (12) Create a public static final String called DATABASE_NAME with value "weather.db"
+    private static final String DATABASE_NAME = "weather.db";
+    private static final int DATABASE_VERSION = 1;
 
-//  TODO (13) Create a private static final int called DATABASE_VERSION and set it to 1
+    public WeatherDbHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
 
-//  TODO (14) Create a constructor that accepts a context and call through to the superclass constructor
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        final String CREATE_TABLE_SQL =
+                "CREATE TABLE " + WeatherEntry.TABLE_NAME + "(" +
+                        WeatherEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        WeatherEntry.COLUMN_DATE + " DATE NOT NULL," +
+                        WeatherEntry.COLUMN_DEGREES + " FLOAT NOT NULL," +
+                        WeatherEntry.COLUMN_HUMIDITY + " FLOAT NOT NULL," +
+                        WeatherEntry.COLUMN_MAX_TEMP + " FLOAT NOT NULL," +
+                        WeatherEntry.COLUMN_MIN_TEMP + " FLOAT NOT NULL," +
+                        WeatherEntry.COLUMN_WIND_SPEED + " FLOAT NOT NULL," +
+                        WeatherEntry.COLUMN_PRESSURE + " FLOAT NOT NULL," +
+                        WeatherEntry.COLUMN_WEATHER_ID + " INTEGER NOT NULL" +
+                        ");";
 
-//  TODO (15) Override onCreate and create the weather table from within it
+        db.execSQL(CREATE_TABLE_SQL);
+    }
 
-//  TODO (16) Override onUpgrade, but don't do anything within it yet
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
 }
