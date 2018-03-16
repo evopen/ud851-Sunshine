@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements
          * Using findViewById, we get a reference to our RecyclerView from xml. This allows us to
          * do things like set the adapter of the RecyclerView and toggle the visibility.
          */
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_forecast);
+        mRecyclerView = findViewById(R.id.recyclerview_forecast);
 
         /*
          * The ProgressBar that will indicate to the user that we are loading data. It will be
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements
          * Please note: This so called "ProgressBar" isn't a bar by default. It is more of a
          * circle. We didn't make the rules (or the names of Views), we just follow them.
          */
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+        mLoadingIndicator = findViewById(R.id.pb_loading_indicator);
 
         /*
          * A LinearLayoutManager is responsible for measuring and positioning item views within a
@@ -258,19 +258,21 @@ public class MainActivity extends AppCompatActivity implements
         mForecastAdapter.swapCursor(null);
     }
 
-    //  TODO (38) Refactor onClick to accept a long instead of a String as its parameter
+    //  COMPLETED (38) Refactor onClick to accept a long instead of a String as its parameter
     /**
      * This method is for responding to clicks from our list.
      *
      * @param weatherForDay String describing weather details for a particular day
      */
     @Override
-    public void onClick(String weatherForDay) {
-//      TODO (39) Refactor onClick to build a URI for the clicked date and and pass it with the Intent using setData
+    public void onClick(long date) {
+//      COMPLETED (39) Refactor onClick to build a URI for the clicked date and and pass it with the Intent using setData
         Context context = this;
         Class destinationClass = DetailActivity.class;
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
-        intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT, weatherForDay);
+        Uri uri = WeatherContract.WeatherEntry.CONTENT_URI
+                .buildUpon().appendPath(String.valueOf(date)).build();
+        intentToStartDetailActivity.setData(uri);
         startActivity(intentToStartDetailActivity);
     }
 
