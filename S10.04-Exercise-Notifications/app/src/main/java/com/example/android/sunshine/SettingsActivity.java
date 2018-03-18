@@ -19,6 +19,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.example.android.sunshine.utilities.NotificationUtils;
+
 /**
  * SettingsActivity is responsible for displaying the {@link SettingsFragment}. It is also
  * responsible for orchestrating proper navigation when the up button is clicked. When the up
@@ -37,6 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        NotificationUtils.notifyUserOfNewWeather(this);
     }
 
     @Override
