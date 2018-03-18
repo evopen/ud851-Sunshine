@@ -15,6 +15,9 @@
  */
 package com.example.android.sunshine.sync;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -23,15 +26,27 @@ import android.support.annotation.NonNull;
 
 import com.example.android.sunshine.data.WeatherContract;
 
+import java.util.concurrent.TimeUnit;
+
 public class SunshineSyncUtils {
 
-//  TODO (10) Add constant values to sync Sunshine every 3 - 4 hours
+    //  COMPLETED (10) Add constant values to sync Sunshine every 3 - 4 hours
+    private static final int SYNC_INTERVAL_HOURS = 4;
+    private static final int ID_SYNC_JOB = 13513;
 
     private static boolean sInitialized;
 
-//  TODO (11) Add a sync tag to identify our sync job
+//  ABANDON (11) Add a sync tag to identify our sync job
 
-//  TODO (12) Create a method to schedule our periodic weather sync
+    //  COMPLETED (12) Create a method to schedule our periodic weather sync
+    private static void scheduleSync(Context context) {
+        JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        ComponentName serviceName = new ComponentName(context, SunshineJobService.class);
+        JobInfo jobInfo = new JobInfo.Builder(ID_SYNC_JOB, serviceName)
+                .setPeriodic(TimeUnit.HOURS.toMillis(SYNC_INTERVAL_HOURS))
+                .build();
+        jobScheduler.schedule(jobInfo);
+    }
 
     /**
      * Creates periodic sync tasks and checks to see if an immediate sync is required. If an
@@ -50,7 +65,9 @@ public class SunshineSyncUtils {
 
         sInitialized = true;
 
-//      TODO (13) Call the method you created to schedule a periodic weather sync
+        scheduleSync(context);
+
+//      COMPLETED (13) Call the method you created to schedule a periodic weather sync
 
         /*
          * We need to check to see if our ContentProvider has data to display in our forecast
