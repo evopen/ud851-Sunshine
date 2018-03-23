@@ -37,7 +37,8 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline"
-        tools:src="@drawable/art_clouds"/>
+        tools:src="@drawable/art_clouds"
+        android:layout_margin="@dimen/today_icon" />
 
     <TextView
         android:id="@+id/date"
